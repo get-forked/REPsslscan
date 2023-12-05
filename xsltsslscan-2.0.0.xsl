@@ -27,6 +27,7 @@ Created 6/30/2020, Last Modified 7/2/2020
   .risk1 {color: black;}
   .risk2 {color: #eb8634;}
   .risk3 {color: red;}
+  .risk4 {color: green;}
   fieldset {display: inline-block;}
   </style>
 </head>
@@ -364,7 +365,7 @@ Created 6/30/2020, Last Modified 7/2/2020
             <font class="risk1"><xsl:value-of select="concat('-',./@type,' ',./@version,' enabled')"/></font><br/>
           </xsl:if>
           <xsl:if test="((./@type = 'tls') and (./@version = '1.3') and (./@enabled = '0'))">
-            <font class="risk2"><xsl:value-of select="concat('-',./@type,' ',./@version,' disabled')"/></font><br/>
+            <font class="risk4"><xsl:value-of select="concat('-',./@type,' ',./@version,' disabled')"/></font><br/>
           </xsl:if>
         </xsl:for-each>
       </td>
@@ -375,7 +376,7 @@ Created 6/30/2020, Last Modified 7/2/2020
          <font class="risk1">-Session renegotiation not supported</font><br/>
        </xsl:if>
        <xsl:if test="((./renegotiation/@supported = '1') and (./renegotiation/@secure = '1'))">
-         <font class="risk1">-Secure session renegotiation supported</font><br/>
+         <font class="risk2">-Secure session renegotiation supported</font><br/>
        </xsl:if>
        <xsl:if test="((./renegotiation/@supported = '1') and (./renegotiation/@secure = '0'))">
          <font class="risk3">-Insecure session renegotiation supported</font><br/>
