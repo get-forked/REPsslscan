@@ -1,5 +1,5 @@
-# xsltsslscan
-XSLT for SSLScan 2.0 XML results
+# Report creation for SSL scan
+Fork from xsltsslscan XSLT for SSLScan 2.0 XML results with added risk categories and explanation. 
 
 # Usage
 ```
