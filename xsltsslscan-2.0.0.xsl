@@ -61,6 +61,18 @@ Created 6/30/2020, Last Modified 7/2/2020
       </xsl:if>
     </xsl:for-each>
     </td></tr>
+    
+    <!--Report Secure Session Renegotiation-->
+    <tr><td>Secure Session Renegotiation</td><td>
+    <xsl:for-each select="document/ssltest/renegotiation">
+         <!--Set Order-->
+         <xsl:sort select="../@host" order="ascending"/>
+         <xsl:sort select="../@port" order="ascending"/>
+      <xsl:if test="(./@supported = '1') and (./@secure = '1')">
+        <xsl:value-of select="concat(../@host,':',../@port)"/><br/>
+      </xsl:if>
+    </xsl:for-each>
+    </td></tr>
 
     <!--Report Insecure Session Renegotiation-->
     <tr><td>Compression Enabled</td><td>
