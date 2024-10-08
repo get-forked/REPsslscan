@@ -407,7 +407,7 @@ Created 6/30/2020, Last Modified 7/2/2020
            <font class="risk3"><xsl:value-of select="concat('-',./@sslversion,' vulnerable to Heartbleed')"/></font><br/>
          </xsl:if>
          <xsl:if test="./@vulnerable = '0'">
-           <font class="risk5"><xsl:value-of select="concat('-',./@sslversion,' not vulnerable to Heartbleed')"/></font><br/>
+           <font class="risk1"><xsl:value-of select="concat('-',./@sslversion,' not vulnerable to Heartbleed')"/></font><br/>
          </xsl:if>
        </xsl:for-each>
      </td>
