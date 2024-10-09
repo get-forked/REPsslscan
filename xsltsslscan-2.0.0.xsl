@@ -429,13 +429,17 @@ Created 6/30/2020, Last Modified 8/10/2024 (github: get-forked)
                 <xsl:if test="(contains(./@sslversion,'SSL')) or (./@sslversion = 'TLSv1.0') or (./@bits &lt; '128') or (contains(./@cipher,'RC4')) or (contains(./@cipher,'AHD')) or (contains(./@cipher,'AECDH'))">
                   <font class="risk3"><xsl:value-of select="concat('-',./@sslversion,'_',./@bits,'-bits_',./@cipher,'_DHE-',./@dhebits,'-bits')"/></font><br/>
                 </xsl:if>
+               <!--TLS1.2 128 bit)-->    
+    		<xsl:if test="((./@sslversion = 'TLSv1.2') and (./@bits &lt; '128')) and not(contains(./@sslversion,'SSL')) and not(./@sslversion = 'TLSv1.0') and not(contains(./@cipher,'RC4')) and not(contains(./@cipher,'AHD')) and not(contains(./@cipher,'AECDH'))">
+    		<font class="risk4"><xsl:value-of select="concat('-',./@sslversion,'_',./@bits,'-bits_',./@cipher,'_DHE-',./@dhebits,'-bits')"/></font><br/>
+		</xsl:if>
                 <!--Check if TLSv1.1 or <2048 DHE bits, and not SSL, TLSv1.0, <128 bits, RC4, AHD, AECDH-->
                 <xsl:if test="((./sslversion = 'TLSv1.1') or (./@dhebits &lt; '2048')) and (not(contains(./@sslversion,'SSL')) and not(./@sslversion = 'TLSv1.0') and not(./@bits &lt; '128') and not(contains(./@cipher,'RC4')) and not(contains(./@cipher,'AHD')) and not(contains(./@cipher,'AECDH')))">
                   <font class="risk2"><xsl:value-of select="concat('-',./@sslversion,'_',./@bits,'-bits_',./@cipher,'_DHE-',./@dhebits,'-bits')"/></font><br/>
                 </xsl:if>
     		  <!--TLS1.2 GCM and CHACHA20-POLY1305 are good, rest are considered to be replaced (meaning CBC and CCM)-->    
     		<xsl:if test="((./sslversion = 'TLSv1.2') or (./sslversion = 'TLSv1.3')) or (contains(./@cipher,'GCM') or contains(./@cipher,'CHACHA20-POLY1305')) and not(contains(./@sslversion,'SSL')) and not(./@sslversion = 'TLSv1.0') and not(./@bits &lt; '128') and not(contains(./@cipher,'RC4')) and not(contains(./@cipher,'AHD')) and not(contains(./@cipher,'AECDH'))">
-    		<font class="risk5"><xsl:value-of select="concat('-',./@sslversion,'_',./@bits,'-bits_',./@cipher,'_DHE-',./@dhebits,'-bits')"/></font><br/>
+    		<font class="risk"><xsl:value-of select="concat('-',./@sslversion,'_',./@bits,'-bits_',./@cipher,'_DHE-',./@dhebits,'-bits')"/></font><br/>
 		</xsl:if>
                 <!--Check if not SSL, TLSv1.0, TLSv1.1, TLSv1.2 <128 bits, RC4, AHD, AECDH, <2048 DHE bits-->
                 <xsl:if test="not(contains(./@sslversion,'SSL')) and not (contains(./@cipher,'GCM')) and not (contains(./@cipher,'CHACHA20-POLY1305')) and not(./@sslversion = 'TLSv1.0') and not(./@sslversion = 'TLSv1.1') and not(./@sslversion = 'TLSv1.2') and not(./@bits &lt; '128') and not(contains(./@cipher,'RC4')) and not(contains(./@cipher,'AHD')) and not(contains(./@cipher,'AECDH')) and not(./@dhebits &lt; '2048')">
@@ -447,7 +451,7 @@ Created 6/30/2020, Last Modified 8/10/2024 (github: get-forked)
               <!--Find and Check Ciphers with Curve-->
               <xsl:when test="./@ecdhebits">
                 <!--Check if SSL, TLSv1.0, <128 bits, RC4, AHD, AECDH-->
-                <xsl:if test="(contains(./@sslversion,'SSL')) or (./@sslversion = 'TLSv1.0') or (./@bits &lt; '128') or (contains(./@cipher,'RC4')) or (contains(./@cipher,'AHD')) or (contains(./@cipher,'AECDH'))">
+                <xsl:if test="(contains(./@sslversion,'SSL')) or (./@sslversion = 'TLSv1.0')  or (./@bits &lt; '128') or (contains(./@cipher,'RC4')) or (contains(./@cipher,'AHD')) or (contains(./@cipher,'AECDH'))">
                   <font class="risk3"><xsl:value-of select="concat('-',./@sslversion,'_',./@bits,'-bits_',./@cipher,'_Curve-',./@curve,'-DHE-',./@ecdhebits)"/></font><br/>
                 </xsl:if>
                 <!--Check if TLSv1.1 and not SSL, TLSv1.0, <128 bits, RC4, AHD, AECDH-->
@@ -455,11 +459,11 @@ Created 6/30/2020, Last Modified 8/10/2024 (github: get-forked)
                   <font class="risk2"><xsl:value-of select="concat('-',./@sslversion,'_',./@bits,'-bits_',./@cipher,'_Curve-',./@curve,'-DHE-',./@ecdhebits)"/></font><br/>
                 </xsl:if>  
                  <!--TLS1.2 GCM and CHACHA20-POLY1305 are good, rest are considered to be replaced (meaning CBC and CCM) BEZIG-->    
-    		<xsl:if test="((./@sslversion= 'TLSv1.2') or (./@sslversion= 'TLSv1.3')) or (contains(./@cipher,'GCM') or contains(./@cipher,'CHACHA20-POLY1305')) and not(contains(./@sslversion,'SSL')) and not(./@sslversion = 'TLSv1.0') and not(./@bits &lt; '128') and not(contains(./@cipher,'RC4')) and not(contains(./@cipher,'AHD')) and not(contains(./@cipher,'AECDH'))">
-   		<font class="risk5"><xsl:value-of select="concat('-',./@sslversion,'_',./@bits,'-bits_',./@cipher,'_DHE-',./@dhebits,'-bits')"/></font><br/>
+    		<xsl:if test="(((./@sslversion = 'TLSv1.2') or (./@sslversion = 'TLSv1.3')) and ((contains(./@cipher, 'GCM') or contains(./@cipher, 'CHACHA20-POLY1305'))) and not(contains(./@sslversion, 'SSL')) and not(./@sslversion = 'TLSv1.0')) and not(./@bits &lt; '128') and not(contains(./@cipher, 'RC4')) and not(contains(./@cipher, 'AHD')) and not(contains(./@cipher, 'AECDH')) and not(contains(./@cipher, 'AES128-SHA256')) and not(contains(./@cipher, 'AES128-GCM-SHA256'))">
+    		<font class="risk5"><xsl:value-of select="concat('-', ./@sslversion, '_', ./@bits, '-bits_', ./@cipher, '_DHE-', ./@dhebits, '-bits')"/></font><br/>
 		</xsl:if>
                 <!--Check if not SSL, TLSv1.0, TLSv1.1, <128 bits, RC4, AHD, AECDH-->
-                <xsl:if test="not(contains(./@sslversion,'SSL')) and not (contains (./@cipher,'GCM')) and not (contains(./@cipher,'CHACHA20-POLY1305')) and not(./@sslversion = 'TLSv1.0') and not(./@sslversion = 'TLSv1.1') and not(./@sslversion = 'TLSv1.2') and not(./@sslversion = 'TLSv1.3')and not(./@bits &lt; '128') and not(contains(./@cipher,'RC4')) and not(contains(./@cipher,'AHD')) and not(contains(./@cipher,'AECDH'))">
+                <xsl:if test="not(contains(./@sslversion,'SSL')) and not (contains (./@cipher,'GCM')) and not (contains(./@cipher,'CHACHA20-POLY1305')) and not(./@sslversion = 'TLSv1.0') and not(./@sslversion = 'TLSv1.1') and not(./@sslversion = 'TLSv1.2') and not(./@sslversion = 'TLSv1.3')and not(contains(./@cipher,'RC4')) and not(contains(./@cipher,'AHD')) and not(contains(./@cipher,'AECDH'))">
                   <font class="risk4"><xsl:value-of select="concat('-',./@sslversion,'_',./@bits,'-bits_',./@cipher,'_Curve-',./@curve,'-DHE-',./@ecdhebits)"/></font><br/>
                 </xsl:if>
               </xsl:when>
